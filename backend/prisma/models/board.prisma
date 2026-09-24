@@ -1,0 +1,27 @@
+model Board {
+    id   String   @id @default(uuid())
+    title  String
+    userId  String
+    createdBy  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    columns   Column[]
+   
+    
+    projectBrief    String?
+    status          String   @default("Planning")
+    category        String   @default("Development")
+    budgetHours     Int?
+    targetDelivery  DateTime?
+
+
+    createdAt  DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Column {
+    id    String   @id @default(uuid())
+    boardId   String
+    board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade) 
+    title    String  
+    position  Int
+    cards     Card[]
+}

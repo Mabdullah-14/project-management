@@ -1,0 +1,26 @@
+model Card{
+    id          String        @id @default(uuid())
+  columnId    String
+  column      Column        @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  position    Int   
+  priority    String  @default("Medium")
+  ets         Int?
+  eta         DateTime?
+  completionTime DateTime?
+  feedBack       String?
+
+  version     Int           @default(1) 
+  history     CardHistory[]
+}
+
+model CardHistory {
+  id        String   @id @default(uuid())
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String   
+  createdAt DateTime @default(now())
+}
